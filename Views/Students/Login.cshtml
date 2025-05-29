@@ -1,0 +1,81 @@
+﻿@model MvcE_Learning.Models.StudentLoginSuccess
+@{
+
+    ViewData["Title"] = "Login";
+    var success = true;
+    Student student = null;
+    String email = "";
+    String password = "";
+    if(Model != null)
+    {
+        if(Model.student != null)
+        {
+            student = Model.student;
+            email = Model.student.Email;
+            password = Model.student.Password;
+        }
+
+        success = Model.success;
+    }
+    var id = Context.Request.Cookies["Name"];
+}
+
+<h1>Student Login Page</h1>
+
+<h4>Student</h4>
+<hr />
+<a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Create">Don't have an account? Sign up now!</a>
+<div class="row">
+    <div class="col-md-4">
+        @if (success == false)
+        {
+            <div class="alert alert-danger" role="alert">
+                Invalid Email or Password
+            </div>
+        }
+        @if(student != null)
+        {
+            <form asp-action="Login">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="student.Email" class="control-label"></label>
+                    <input placeholder=@email asp-for ="student.Email" class="form-control" />
+                    <span asp-validation-for="student.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="student.Password" class="control-label"></label>
+                    <input placeholder=@password asp-for="student.Password" class="form-control" />
+                    <span asp-validation-for="student.Password" class="text-danger"></span>
+                    <div class="form-group">
+                        <input type="submit" value="Login" class="btn btn-primary" />
+                    </div>
+            </form>
+        }
+        else
+        {
+            <form asp-action="Login">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="student.Email" class="control-label"></label>
+                    <input asp-for="student.Email" class="form-control" />
+                    <span asp-validation-for="student.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="student.Password" class="control-label"></label>
+                    <input asp-for="student.Password" class="form-control" />
+                    <span asp-validation-for="student.Password" class="text-danger"></span>
+                    <div class="form-group">
+                        <input type="submit" value="Login" class="btn btn-primary" />
+                    </div>
+            </form>
+        }
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

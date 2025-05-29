@@ -1,0 +1,68 @@
+﻿@model IEnumerable<MvcE_Learning.Models.Course>
+
+@{
+    ViewData["Title"] = "Instructor Home";
+}
+
+<h1>Instructor Home Page</h1>
+
+<h2 class="h2">Your Courses</h2>
+
+<a class="nav-link text-dark" asp-controller="Courses" asp-action="Create">Create New Course</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Duration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Difficulty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fields)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model!)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Difficulty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fields)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    <a asp-controller="Courses" asp-action="Edit" asp-route-id="@item.CourseId">Edit Info</a> |
+                    <a asp-controller="Courses" asp-action="Details" asp-route-id="@item.CourseId">Details</a> |
+                    <a asp-controller="Courses" asp-action="Delete" asp-route-id="@item.CourseId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

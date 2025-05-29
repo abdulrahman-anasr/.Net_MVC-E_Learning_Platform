@@ -1,0 +1,114 @@
+﻿@model MvcE_Learning.Models.CourseContentViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    var role = Context.Request.Cookies["Role"];
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Course</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Duration)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Duration)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Difficulty)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Difficulty)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Fields)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Fields)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Rating)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Rating)
+        </dd>
+    </dl>
+
+    <h4 style="font-weight: bold">Content</h4>
+
+    @if (Model.Contents != null && Model.Contents.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Date Added</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var content in Model.Contents)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => content.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => content.DateAdded)</td>
+                        <td>@Html.DisplayFor(modelItem => content.Type)</td>
+                        <td>
+                            @if (role == "Instructor")
+                            {
+                                <a asp-action="Edit" asp-controller="Contents" asp-route-id="@content.ContentId" class="btn btn-warning">Edit</a>
+                                <a asp-action="Delete" asp-controller="Contents"  asp-route-id="@content.ContentId" class="btn btn-danger">Delete</a>
+                            }
+                        </td>
+                        <td>
+                            @if (content.pdfFile != null && content.pdfFile.Length > 0)
+                            {
+                                <a asp-action="Download" asp-controller="Contents" asp-route-id="@Model.Course.CourseId" class="btn btn-success">Download PDF</a>
+                            }
+                            else
+                            {
+                                <span>No PDF available</span>
+                            }
+                        </td>
+                        
+                    </tr>
+                }
+                <h5>Video</h5>
+                <iframe width="560" height="315"
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=y4Xbnr_2N05VpYJ3"
+                        title="YouTube video player"
+                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No content available for this course.</p>
+    }
+</div>
+
+<div>
+    @if (role == "Instructor") {
+    <a asp-action="Create" asp-controller="Contents" asp-route-id="@Model.Course.CourseId" class="btn btn-primary">Add Content</a> 
+    <a asp-action="Edit" asp-route-id="@Model.Course.CourseId">Edit</a> 
+    <a asp-action="Index">Back to List</a>
+    }
+</div>

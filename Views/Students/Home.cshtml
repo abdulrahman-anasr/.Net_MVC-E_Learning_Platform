@@ -1,0 +1,86 @@
+﻿@model IEnumerable<MvcE_Learning.Models.CourseRatingViewModel>
+
+@{
+    ViewData["Title"] = "Student Home";
+}
+
+<h1>Student Home Page</h1>
+
+<h2 class="h2">Your Courses</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.course.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.course.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.course.Duration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.course.Difficulty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.course.Fields)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.course.Rating)
+            </th>
+            <th>
+                Details
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.rating)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model!)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.course.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.course.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.course.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.course.Difficulty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.course.Fields)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.course.Rating)
+                </td>
+                <td>
+                    <a asp-controller="Courses" asp-action="Details" asp-route-id="@item.course.CourseId" class="btn btn-primary">Details</a>
+                </td>
+                    @if(item.rated)
+                    {
+                        <td>
+                        @Html.DisplayFor(modelItem => item.rating)
+                        </td>
+                        <td>
+                        <a asp-controller="Ratings" asp-action="Edit" asp-route-id="@item.ratingId" class="btn btn-primary">Modify Rating</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                        <a asp-controller="Ratings" asp-action="Create" asp-route-id="@item.course.CourseId" class="btn btn-primary">Rate</a>
+                        </td>
+                    }
+            </tr>
+        }
+    </tbody>
+</table>
+
+    

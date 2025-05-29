@@ -1,0 +1,49 @@
+﻿@model MvcE_Learning.Models.InstructorLoginSuccess
+
+@{
+    var success = true;
+    if(Model != null)
+    {
+        success = Model.success;
+    }
+    ViewData["Title"] = "Login";
+    var id = Context.Request.Cookies["Name"];
+}
+
+<h1>Instructor Login Page</h1>
+
+<h4>Instructor</h4>
+<hr />
+<a class="nav-link text-dark" asp-area="" asp-controller="Instructors" asp-action="Create">Don't have an account? Sign up now!</a>
+<div class="row">
+    <div class="col-md-4">
+        @if(success == false)
+        {
+            <div class="alert alert-danger" role="alert">
+                Invalid Email or Password
+            </div>
+        }
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="instructor.Email" class="control-label"></label>
+                <input asp-for="instructor.Email" class="form-control" />
+                <span asp-validation-for="instructor.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="instructor.Password" class="control-label"></label>
+                <input asp-for="instructor.Password" class="form-control" />
+                <span asp-validation-for="instructor.Password" class="text-danger"></span>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
