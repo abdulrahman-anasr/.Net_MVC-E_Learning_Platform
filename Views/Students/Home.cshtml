@@ -1,86 +1,161 @@
 ﻿@model IEnumerable<MvcE_Learning.Models.CourseRatingViewModel>
 
 @{
-    ViewData["Title"] = "Student Home";
+    ViewData["Title"] = "Student Dashboard";
 }
 
-<h1>Student Home Page</h1>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold gradient-text">Welcome to Your Dashboard</h1>
+        <p class="lead text-muted">Continue your learning journey</p>
+    </div>
 
-<h2 class="h2">Your Courses</h2>
+    <div class="card shadow-lg border-0 rounded-lg overflow-hidden mb-5">
+        <div class="card-header bg-primary-gradient text-white py-3">
+            <h2 class="h4 mb-0 fw-bold"><i class="fas fa-book-open me-2"></i> Your Courses</h2>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Course Name</th>
+                            <th>Description</th>
+                            <th>Duration</th>
+                            <th>Difficulty</th>
+                            <th>Fields</th>
+                            <th>Rating</th>
+                            <th>Actions</th>
+                            <th>Your Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model!)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold">@Html.DisplayFor(modelItem => item.course.Name)</td>
+                                <td class="text-truncate" style="max-width: 200px;" title="@item.course.Description">
+                                    @Html.DisplayFor(modelItem => item.course.Description)
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.course.Duration)</td>
+                                <td>
+                                    <span class="badge bg-@GetDifficultyBadgeClass(item.course.Difficulty)">
+                                        @Html.DisplayFor(modelItem => item.course.Difficulty)
+                                    </span>
+                                </td>
+                                <td>
+                                    @foreach (var field in item.course.Fields.Split(','))
+                                    {
+                                        <span class="badge bg-secondary me-1">@field.Trim()</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-warning me-1">
+                                            @for (int i = 0; i < (int)item.course.Rating; i++)
+                                            {
+                                                <i class="fas fa-star"></i>
+                                            }
+                                            @if (item.course.Rating % 1 > 0)
+                                            {
+                                                <i class="fas fa-star-half-alt"></i>
+                                            }
+                                        </span>
+                                        <span>@item.course.Rating.ToString("0.0")</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a asp-controller="Courses" asp-action="Details" asp-route-id="@item.course.CourseId"
+                                       class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                        <i class="fas fa-info-circle me-1"></i> Details
+                                    </a>
+                                </td>
+                                @if (item.rated)
+                                {
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="text-warning me-1">
+                                                @for (int i = 0; i < (int)item.rating; i++)
+                                                {
+                                                    <i class="fas fa-star"></i>
+                                                }
+                                            </span>
+                                            <span>@item.rating.ToString("0.0")</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Ratings" asp-action="Edit" asp-route-id="@item.ratingId"
+                                           class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                                            <i class="fas fa-edit me-1"></i> Modify
+                                        </a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td colspan="2">
+                                        <a asp-controller="Ratings" asp-action="Create" asp-route-id="@item.course.CourseId"
+                                           class="btn btn-sm btn-primary rounded-pill px-3">
+                                            <i class="fas fa-star me-1"></i> Rate Course
+                                        </a>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.course.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.course.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.course.Duration)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.course.Difficulty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.course.Fields)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.course.Rating)
-            </th>
-            <th>
-                Details
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.rating)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model!)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.course.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.course.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.course.Duration)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.course.Difficulty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.course.Fields)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.course.Rating)
-                </td>
-                <td>
-                    <a asp-controller="Courses" asp-action="Details" asp-route-id="@item.course.CourseId" class="btn btn-primary">Details</a>
-                </td>
-                    @if(item.rated)
-                    {
-                        <td>
-                        @Html.DisplayFor(modelItem => item.rating)
-                        </td>
-                        <td>
-                        <a asp-controller="Ratings" asp-action="Edit" asp-route-id="@item.ratingId" class="btn btn-primary">Modify Rating</a>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                        <a asp-controller="Ratings" asp-action="Create" asp-route-id="@item.course.CourseId" class="btn btn-primary">Rate</a>
-                        </td>
-                    }
-            </tr>
+<style>
+    .gradient-text {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+        .table th {
+            border-top: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
         }
-    </tbody>
-</table>
 
-    
+    .table-hover tbody tr:hover {
+        background-color: rgba(67, 97, 238, 0.05);
+    }
+
+    .badge {
+        font-weight: 500;
+        padding: 0.35em 0.65em;
+    }
+</style>
+
+@functions {
+    string GetDifficultyBadgeClass(string difficulty)
+    {
+        return difficulty switch
+        {
+            "Beginner" => "success",
+            "Intermediate" => "warning",
+            "Advanced" => "danger",
+            _ => "secondary"
+        };
+    }
+}

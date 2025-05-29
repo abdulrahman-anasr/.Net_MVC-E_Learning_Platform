@@ -1,11 +1,79 @@
 ﻿@{
     ViewData["Title"] = "Login Option";
 }
-<div class="row">
-    <div class="col-md-4">
-         <div class="form-group">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RedirectInstructor">Login as Instructor</a>
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RedirectStudent">Login as Student</a>
-         </div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-6 text-center mb-5">
+            <h1 class="display-4 fw-bold gradient-text mb-3">Welcome Back!</h1>
+            <p class="lead text-muted">Please select your login option to continue to your dashboard</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        <!-- Instructor Login Card -->
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-lg h-100 hover-effect">
+                <div class="card-body p-5 text-center">
+                    <div class="icon-circle bg-primary bg-opacity-10 text-primary mb-4 mx-auto">
+                        <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                    </div>
+                    <h3 class="h4 mb-3 fw-bold">Instructor Login</h3>
+                    <p class="text-muted mb-4">Access your teaching dashboard to manage courses and students</p>
+                    <a asp-area="" asp-controller="Home" asp-action="RedirectInstructor"
+                       class="btn btn-primary btn-lg px-4 stretched-link">
+                        <i class="fas fa-sign-in-alt me-2"></i> Continue as Instructor
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Login Card -->
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-lg h-100 hover-effect">
+                <div class="card-body p-5 text-center">
+                    <div class="icon-circle bg-success bg-opacity-10 text-success mb-4 mx-auto">
+                        <i class="fas fa-user-graduate fa-2x"></i>
+                    </div>
+                    <h3 class="h4 mb-3 fw-bold">Student Login</h3>
+                    <p class="text-muted mb-4">Access your learning dashboard to view courses and progress</p>
+                    <a asp-area="" asp-controller="Home" asp-action="RedirectStudent"
+                       class="btn btn-success btn-lg px-4 stretched-link">
+                        <i class="fas fa-sign-in-alt me-2"></i> Continue as Student
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    .icon-circle {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hover-effect {
+        transition: all 0.3s ease;
+        border-radius: 1rem;
+    }
+
+        .hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+    .gradient-text {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .btn-success {
+        background-color: #4bb543;
+        border-color: #4bb543

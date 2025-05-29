@@ -1,6 +1,206 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
+    var role = Context.Request.Cookies["Role"];
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+                <div class="card-header bg-primary-gradient text-white py-4">
+                    <h1 class="h3 mb-0 gradient-text text-center">
+                        <i class="fas fa-shield-alt me-2"></i> @ViewData["Title"]
+                    </h1>
+                </div>
+                <div class="card-body p-5">
+                    <div class="privacy-content">
+                        <section class="mb-5">
+                            <h2 class="h4 mb-3 text-primary">
+                                <i class="fas fa-info-circle me-2"></i> Introduction
+                            </h2>
+                            <p>Welcome to E-Learning Platform. We are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our learning platform.</p>
+                        </section>
+
+                        <section class="mb-5">
+                            <h2 class="h4 mb-3 text-primary">
+                                <i class="fas fa-database me-2"></i> Information We Collect
+                            </h2>
+                            <p>We may collect the following types of information:</p>
+                            <ul class="list-group list-group-flush mb-3">
+                                <li class="list-group-item bg-light"><strong>Account Information:</strong> Name, email, role (student/instructor), and profile details</li>
+                                <li class="list-group-item bg-light"><strong>Learning Data:</strong> Course progress, quiz scores, and completion certificates</li>
+                                <li class="list-group-item bg-light"><strong>Technical Data:</strong> IP address, browser type, device information, and usage patterns</li>
+                                <li class="list-group-item bg-light"><strong>Cookies:</strong> We use essential cookies for authentication and session management</li>
+                            </ul>
+                        </section>
+
+                        <section class="mb-5">
+                            <h2 class="h4 mb-3 text-primary">
+                                <i class="fas fa-lock me-2"></i> How We Use Your Information
+                            </h2>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-3 border-primary">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary"><i class="fas fa-user-graduate me-2"></i> For Students</h5>
+                                            <ul>
+                                                <li>Personalize learning experience</li>
+                                                <li>Track course progress</li>
+                                                <li>Issue completion certificates</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-3 border-primary">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary"><i class="fas fa-chalkboard-teacher me-2"></i> For Instructors</h5>
+                                            <ul>
+                                                <li>Course management</li>
+                                                <li>Student performance analytics</li>
+                                                <li>Content delivery optimization</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="mb-5">
+                            <h2 class="h4 mb-3 text-primary">
+                                <i class="fas fa-share-square me-2"></i> Data Sharing
+                            </h2>
+                            <p>We do not sell your personal information. Data may be shared with:</p>
+                            <div class="alert alert-info">
+                                <ul class="mb-0">
+                                    <li>Service providers (hosting, analytics)</li>
+                                    <li>Instructors (for courses you enroll in)</li>
+                                    <li>Legal authorities when required by law</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section class="mb-5">
+                            <h2 class="h4 mb-3 text-primary">
+                                <i class="fas fa-user-cog me-2"></i> Your Rights
+                            </h2>
+                            <p>You have the right to:</p>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100 border-success">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-success"><i class="fas fa-eye me-2"></i> Access</h5>
+                                            <p>Request a copy of your personal data</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100 border-success">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-success"><i class="fas fa-edit me-2"></i> Rectification</h5>
+                                            <p>Correct inaccurate information</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100 border-success">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-success"><i class="fas fa-trash-alt me-2"></i> Erasure</h5>
+                                            <p>Request deletion of your data</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100 border-success">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-success"><i class="fas fa-ban me-2"></i> Objection</h5>
+                                            <p>Object to certain processing activities</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="mb-5">
+                            <h2 class="h4 mb-3 text-primary">
+                                <i class="fas fa-shield-virus me-2"></i> Security Measures
+                            </h2>
+                            <div class="security-badges text-center mb-4">
+                                <span class="badge bg-success me-2 mb-2"><i class="fas fa-lock"></i> Encryption</span>
+                                <span class="badge bg-info me-2 mb-2"><i class="fas fa-fire-extinguisher"></i> Firewalls</span>
+                                <span class="badge bg-warning me-2 mb-2"><i class="fas fa-user-shield"></i> Access Controls</span>
+                                <span class="badge bg-danger me-2 mb-2"><i class="fas fa-clock"></i> Regular Audits</span>
+                            </div>
+                            <p>We implement industry-standard security measures including SSL encryption, regular security audits, and strict access controls to protect your data.</p>
+                        </section>
+
+                        <section class="mb-5">
+                            <h2 class="h4 mb-3 text-primary">
+                                <i class="fas fa-calendar-alt me-2"></i> Policy Updates
+                            </h2>
+                            <div class="alert alert-warning">
+                                <p><strong>Last Updated:</strong> @DateTime.Now.ToString("MMMM dd, yyyy")</p>
+                                <p>We may update this policy periodically. Significant changes will be notified through our platform or via email.</p>
+                            </div>
+                        </section>
+
+                        <section>
+                            <h2 class="h4 mb-3 text-primary">
+                                <i class="fas fa-question-circle me-2"></i> Contact Us
+                            </h2>
+                            <div class="card border-primary">
+                                <div class="card-body">
+                                    <p>For privacy-related inquiries or to exercise your rights, please contact our Data Protection Officer:</p>
+                                    <ul>
+                                        <li><i class="fas fa-envelope me-2"></i> privacy@mvcelearning.com</li>
+                                        <li><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</li>
+                                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Learning St, Tech City, TC 10101</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .gradient-text {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .privacy-content section {
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 2rem;
+    }
+
+        .privacy-content section:last-child {
+            border-bottom: none;
+        }
+
+    .security-badges .badge {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+    }
+
+    .list-group-item {
+        border-left: none;
+        border-right: none;
+    }
+</style>

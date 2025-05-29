@@ -2,58 +2,157 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var role = Context.Request.Cookies["Role"];
 }
 
-<h1>Edit</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+                @if (role != "Instructor")
+                {
+                    <div class="card-header bg-danger text-white py-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <h2 class="h5 mb-0">Access Denied</h2>
+                        </div>
+                    </div>
+                    <div class="card-body text-center p-5">
+                        <i class="fas fa-lock fa-4x text-danger mb-4"></i>
+                        <h3 class="h4 mb-3">Instructor Privileges Required</h3>
+                        <p class="text-muted">Only instructors can edit course details.</p>
+                        <a class="btn btn-primary mt-3" asp-controller="Home" asp-action="Index">
+                            <i class="fas fa-home me-1"></i> Return to Home
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="card-header bg-primary-gradient text-white py-3">
+                        <h2 class="h5 mb-0 gradient-text">
+                            <i class="fas fa-edit me-2"></i> Edit Course
+                        </h2>
+                    </div>
+                    <div class="card-body p-5">
+                        <form asp-action="Edit" class="needs-validation" novalidate>
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                            <input type="hidden" asp-for="CourseId" />
 
-<h4>Course</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CourseId" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Name" class="form-control" id="nameInput" placeholder=" " required>
+                                <label for="nameInput" asp-for="Name">Course Name</label>
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <textarea asp-for="Description" class="form-control" id="descInput" placeholder=" " style="height: 100px" required></textarea>
+                                <label for="descInput" asp-for="Description">Description</label>
+                                <span asp-validation-for="Description" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Duration" type="number" class="form-control" id="durationInput" placeholder=" " required>
+                                <label for="durationInput" asp-for="Duration">Duration (weeks)</label>
+                                <span asp-validation-for="Duration" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select asp-for="Difficulty" class="form-control" id="difficultyInput" required>
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                </select>
+                                <label for="difficultyInput" asp-for="Difficulty">Difficulty Level</label>
+                                <span asp-validation-for="Difficulty" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select asp-for="Fields" class="form-control" id="fieldInput" required>
+                                    <option value="Computer Science">Computer Science</option>
+                                    <option value="Mathematics">Mathematics</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Engineering">Engineering</option>
+                                </select>
+                                <label for="fieldInput" asp-for="Fields">Field of Study</label>
+                                <span asp-validation-for="Fields" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-4">
+                                <input asp-for="Rating" type="number" step="0.1" min="0" max="5" class="form-control" id="ratingInput" placeholder=" " required>
+                                <label for="ratingInput" asp-for="Rating">Rating (0-5)</label>
+                                <span asp-validation-for="Rating" class="text-danger small"></span>
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <a class="btn btn-outline-secondary" asp-action="Index">
+                                    <i class="fas fa-arrow-left me-1"></i> Back to List
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i> Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                }
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Duration" class="control-label"></label>
-                <input asp-for="Duration" class="form-control" />
-                <span asp-validation-for="Duration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Difficulty" class="control-label"></label>
-                <input asp-for="Difficulty" class="form-control" />
-                <span asp-validation-for="Difficulty" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Fields" class="control-label"></label>
-                <input asp-for="Fields" class="form-control" />
-                <span asp-validation-for="Fields" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Rating" class="control-label"></label>
-                <input asp-for="Rating" class="form-control" />
-                <span asp-validation-for="Rating" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .gradient-text {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .form-floating label {
+        color: #6c757d;
+    }
+
+    .form-control {
+        padding: 1rem 0.75rem;
+        border-radius: 0.5rem;
+    }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+
+    textarea.form-control {
+        min-height: 100px;
+    }
+</style>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
 }

@@ -2,59 +2,140 @@
 
 @{
     ViewData["Title"] = "Create";
+    var role = Context.Request.Cookies["Role"];
 }
 
-<h1>Create</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+                @if (role != "Instructor")
+                {
+                    <div class="card-header bg-danger text-white py-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <h2 class="h5 mb-0">Access Denied</h2>
+                        </div>
+                    </div>
+                    <div class="card-body text-center p-5">
+                        <i class="fas fa-lock fa-4x text-danger mb-4"></i>
+                        <h3 class="h4 mb-3">You don't have permission to create content</h3>
+                        <p class="text-muted">Only instructors can create new course content.</p>
+                        <a class="btn btn-primary mt-3" asp-controller="Home" asp-action="Index">
+                            <i class="fas fa-home me-1"></i> Return to Home
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="card-header bg-primary-gradient text-white py-3">
+                        <h2 class="h5 mb-0 gradient-text">
+                            <i class="fas fa-plus-circle me-2"></i> Create New Content
+                        </h2>
+                    </div>
+                    <div class="card-body p-5">
+                        <form asp-action="Create" enctype="multipart/form-data" class="needs-validation" novalidate>
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<h4>Content</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create"  enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Title" class="form-control" id="titleInput" placeholder=" " required>
+                                <label for="titleInput" asp-for="Title">Title</label>
+                                <span asp-validation-for="Title" class="text-danger small"></span>
+                            </div>
 
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                            <div class="form-floating mb-3">
+                                <input asp-for="DateAdded" type="date" class="form-control" id="dateInput" placeholder=" " required>
+                                <label for="dateInput" asp-for="DateAdded">Date Added</label>
+                                <span asp-validation-for="DateAdded" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select asp-for="Type" class="form-control" id="typeInput" required>
+                                    <option value="">Select content type</option>
+                                    <option value="Lecture Notes">Lecture Notes</option>
+                                    <option value="Video">Video</option>
+                                    <option value="Assignment">Assignment</option>
+                                    <option value="Reading Material">Reading Material</option>
+                                </select>
+                                <label for="typeInput" asp-for="Type">Content Type</label>
+                                <span asp-validation-for="Type" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="PdfUpload" class="form-label">Upload PDF</label>
+                                <input asp-for="PdfUpload" class="form-control" type="file" accept=".pdf" required>
+                                <div class="form-text">Only PDF files are accepted</div>
+                                <span asp-validation-for="PdfUpload" class="text-danger small"></span>
+                            </div>
+
+                            <input type="hidden" asp-for="CourseId" value="@ViewData["CourseId"]" />
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <a class="btn btn-outline-secondary" asp-action="Index">
+                                    <i class="fas fa-arrow-left me-1"></i> Back to List
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i> Create Content
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                }
             </div>
-
-            <div class="form-group">
-                <label asp-for="DateAdded" class="control-label"></label>
-                <input asp-for="DateAdded" class="form-control" />
-                <span asp-validation-for="DateAdded" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PdfUpload" class="control-label">>Upload PDF:</label>
-                <input asp-for="PdfUpload" type="file" name="PdfUpload" id="PdfUpload" accept=".pdf" />
-            </div>
-
-
-            <div class="form-group">
-                <input type="hidden" asp-for="CourseId" value="@ViewData["CourseId"]" />
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-
-            
-
-
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .gradient-text {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .form-floating label {
+        color: #6c757d;
+    }
+
+    .form-control {
+        padding: 1rem 0.75rem;
+        border-radius: 0.5rem;
+    }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+</style>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
 }

@@ -4,11 +4,141 @@
     var name = Context.Request.Cookies["Name"];  // Get the Name cookie
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to the E-Learners Website</h1>
-    <p class="h5">
-            eLearning (e-learning, electronic learning) is a type of online education, training, and knowledge sharing that is conducted over the Internet. It can be utilized in various settings, such as academic education, corporate training, continuing professional development, and skill development courses.
-
-            The growth of eLearning has been facilitated by the widespread adoption of computers and internet technology, and was further accelerated by the COVID-19 pandemic, which led to a surge in demand for online learning solutions. But would you like to know where it all started?
-    </p>
+<div class="hero-section py-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <h1 class="display-3 fw-bold mb-4 animate__animated animate__fadeInDown">Welcome to <span class="gradient-text">E-Learners</span></h1>
+                <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">
+                    Your gateway to transformative online education and skill development
+                </p>
+                <div class="d-flex gap-3 animate__animated animate__fadeIn animate__delay-2s">
+                    @if (string.IsNullOrEmpty(role))
+                    {
+                        <a asp-controller="Home" asp-action="LoginPageOption" class="btn btn-primary btn-lg px-4">
+                            <i class="fas fa-sign-in-alt me-2"></i> Get Started
+                        </a>
+                        <a asp-controller="Courses" asp-action="Index" class="btn btn-outline-primary btn-lg px-4">
+                            <i class="fas fa-book me-2"></i> Browse Courses
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="@(role == "Student" ? "Students" : "Instructors")" asp-action="Home" class="btn btn-primary btn-lg px-4">
+                            <i class="fas fa-tachometer-alt me-2"></i> Go to Dashboard
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-6 animate__animated animate__fadeInRight">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80"
+                     alt="Online Learning"
+                     class="img-fluid rounded-4 shadow-lg floating"
+                     style="max-height: 400px; object-fit: cover;">
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold gradient-text">What is eLearning?</h2>
+            <div class="divider mx-auto bg-primary"></div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm animate__animated animate__fadeIn">
+                    <div class="card-body p-4">
+                        <div class="icon-box bg-primary bg-opacity-10 text-primary mb-4">
+                            <i class="fas fa-laptop fa-2x"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Modern Digital Learning</h3>
+                        <p class="mb-0">
+                            eLearning (electronic learning) is online education conducted over the Internet, used in academic education, corporate training, professional development, and skill courses. It leverages digital technologies to deliver interactive, flexible learning experiences.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm animate__animated animate__fadeIn animate__delay-1s">
+                    <div class="card-body p-4">
+                        <div class="icon-box bg-primary bg-opacity-10 text-primary mb-4">
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Rapid Growth & Adoption</h3>
+                        <p class="mb-0">
+                            The growth of eLearning has been fueled by widespread computer/internet access and was accelerated by the COVID-19 pandemic, which created unprecedented demand for online education solutions across all sectors of society.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                     alt="History of eLearning"
+                     class="img-fluid rounded-4 shadow"
+                     style="max-height: 400px; object-fit: cover;">
+            </div>
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">The Origins of eLearning</h2>
+                <p class="mb-4">
+                    The concept of distance learning actually dates back to the 19th century with correspondence courses. The first true eLearning systems emerged in the 1960s at the University of Illinois with their PLATO system. However, the modern eLearning revolution began in the 1990s with the advent of the World Wide Web.
+                </p>
+                <p class="mb-4">
+                    Today's eLearning platforms like E-Learners combine multimedia content, interactive exercises, and community features to create engaging learning experiences that rival traditional classroom instruction in effectiveness.
+                </p>
+                <a href="#" class="btn btn-outline-primary">
+                    <i class="fas fa-history me-2"></i> Learn More About Our History
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(79, 55, 201, 0.05) 100%);
+        border-radius: 0 0 2rem 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .gradient-text {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .icon-box {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .divider {
+        width: 80px;
+        height: 4px;
+        border-radius: 2px;
+    }
+
+    .btn-outline-primary {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+</style>

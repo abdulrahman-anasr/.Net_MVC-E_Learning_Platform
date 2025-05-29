@@ -1,114 +1,224 @@
 ﻿@model MvcE_Learning.Models.CourseContentViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Course Details";
     var role = Context.Request.Cookies["Role"];
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Course</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Duration)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Duration)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Difficulty)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Difficulty)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Fields)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Fields)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Rating)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Rating)
-        </dd>
-    </dl>
-
-    <h4 style="font-weight: bold">Content</h4>
-
-    @if (Model.Contents != null && Model.Contents.Any())
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Date Added</th>
-                    <th>Type</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var content in Model.Contents)
+<div class="container py-5">
+    <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+        <!-- Course Header -->
+        <div class="card-header bg-primary-gradient text-white py-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0 fw-bold">@Model.Course.Name</h1>
+                    <div class="d-flex align-items-center mt-2">
+                        <span class="badge bg-@GetDifficultyBadgeClass(Model.Course.Difficulty) me-2">
+                            @Model.Course.Difficulty
+                        </span>
+                        <span class="text-white-50 me-3">
+                            <i class="fas fa-clock me-1"></i> @Model.Course.Duration
+                        </span>
+                        <div class="text-warning">
+                            @for (int i = 0; i < (int)Model.Course.Rating; i++)
+                            {
+                                <i class="fas fa-star"></i>
+                            }
+                            @if (Model.Course.Rating % 1 > 0)
+                            {
+                                <i class="fas fa-star-half-alt"></i>
+                            }
+                            <span class="text-white ms-1">@Model.Course.Rating.ToString("0.0")</span>
+                        </div>
+                    </div>
+                </div>
+                @if (role == "Instructor")
                 {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => content.Title)</td>
-                        <td>@Html.DisplayFor(modelItem => content.DateAdded)</td>
-                        <td>@Html.DisplayFor(modelItem => content.Type)</td>
-                        <td>
-                            @if (role == "Instructor")
-                            {
-                                <a asp-action="Edit" asp-controller="Contents" asp-route-id="@content.ContentId" class="btn btn-warning">Edit</a>
-                                <a asp-action="Delete" asp-controller="Contents"  asp-route-id="@content.ContentId" class="btn btn-danger">Delete</a>
-                            }
-                        </td>
-                        <td>
-                            @if (content.pdfFile != null && content.pdfFile.Length > 0)
-                            {
-                                <a asp-action="Download" asp-controller="Contents" asp-route-id="@Model.Course.CourseId" class="btn btn-success">Download PDF</a>
-                            }
-                            else
-                            {
-                                <span>No PDF available</span>
-                            }
-                        </td>
-                        
-                    </tr>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model.Course.CourseId" class="btn btn-outline-light btn-sm me-2">
+                            <i class="fas fa-edit me-1"></i> Edit Course
+                        </a>
+                        <a asp-action="Create" asp-controller="Contents" asp-route-id="@Model.Course.CourseId" class="btn btn-light btn-sm">
+                            <i class="fas fa-plus me-1"></i> Add Content
+                        </a>
+                    </div>
                 }
-                <h5>Video</h5>
-                <iframe width="560" height="315"
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=y4Xbnr_2N05VpYJ3"
-                        title="YouTube video player"
-                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
-                </iframe>
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>No content available for this course.</p>
-    }
+            </div>
+        </div>
+
+        <!-- Course Body -->
+        <div class="card-body">
+            <!-- Course Fields -->
+            <div class="mb-4">
+                @foreach (var field in Model.Course.Fields.Split(','))
+                {
+                    <span class="badge bg-secondary me-1">@field.Trim()</span>
+                }
+            </div>
+
+            <!-- Course Description -->
+            <div class="mb-5">
+                <h5 class="fw-bold gradient-text mb-3">Course Description</h5>
+                <p class="lead">@Model.Course.Description</p>
+            </div>
+
+            <!-- Course Content Section -->
+            <div class="mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold gradient-text mb-0">Course Content</h5>
+                    @if (role == "Instructor")
+                    {
+                        <a asp-controller="Instructors" asp-action="Home" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-arrow-left me-1"></i> Back to Courses
+                        </a>
+                    }
+                    @if (role == "Student")
+                    {
+                        <a asp-controller="Instructors" asp-action="Home" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-arrow-left me-1"></i> Back to Courses
+                        </a>
+                    }
+                </div>
+
+                @if (Model.Contents != null && Model.Contents.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Date Added</th>
+                                    <th>Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var content in Model.Contents)
+                                {
+                                    <tr>
+                                        <td class="fw-bold">@content.Title</td>
+                                        <td>@content.DateAdded.ToShortDateString()</td>
+                                        <td>
+                                            <span class="badge bg-@GetContentTypeBadgeClass(content.Type)">
+                                                @content.Type
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex">
+                                                @if (content.pdfFile != null && content.pdfFile.Length > 0)
+                                                {
+                                                    <a asp-action="Download" asp-controller="Contents" asp-route-id="@content.ContentId"
+                                                       class="btn btn-sm btn-success me-2">
+                                                        <i class="fas fa-file-pdf me-1"></i> PDF
+                                                    </a>
+                                                }
+                                                @if (role == "Instructor")
+                                                {
+                                                    <a asp-action="Edit" asp-controller="Contents" asp-route-id="@content.ContentId"
+                                                       class="btn btn-sm btn-outline-warning me-2">
+                                                        <i class="fas fa-edit me-1"></i> Edit
+                                                    </a>
+                                                    <a asp-action="Delete" asp-controller="Contents" asp-route-id="@content.ContentId"
+                                                       class="btn btn-sm btn-outline-danger">
+                                                        <i class="fas fa-trash me-1"></i> Delete
+                                                    </a>
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Video Section -->
+                    <div class="mt-5">
+                        <h5 class="fw-bold gradient-text mb-3">Course Video</h5>
+                        <div class="ratio ratio-16x9 rounded-lg overflow-hidden shadow-sm">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=y4Xbnr_2N05VpYJ3"
+                                    title="YouTube video player"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i> No content available for this course yet.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
-<div>
-    @if (role == "Instructor") {
-    <a asp-action="Create" asp-controller="Contents" asp-route-id="@Model.Course.CourseId" class="btn btn-primary">Add Content</a> 
-    <a asp-action="Edit" asp-route-id="@Model.Course.CourseId">Edit</a> 
-    <a asp-action="Index">Back to List</a>
+<style>
+    .gradient-text {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
     }
-</div>
+
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .card {
+        border-radius: 1rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+        .table th {
+            border-top: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(67, 97, 238, 0.05);
+    }
+
+    .badge {
+        font-weight: 500;
+        padding: 0.35em 0.65em;
+    }
+
+    .ratio-16x9 {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+</style>
+
+@functions {
+    string GetDifficultyBadgeClass(string difficulty)
+    {
+        return difficulty switch
+        {
+            "Beginner" => "success",
+            "Intermediate" => "warning",
+            "Advanced" => "danger",
+            _ => "secondary"
+        };
+    }
+
+    string GetContentTypeBadgeClass(string type)
+    {
+        return type switch
+        {
+            "Lecture" => "info",
+            "Reading" => "primary",
+            "Exercise" => "success",
+            "Video" => "danger",
+            _ => "secondary"
+        };
+    }
+}

@@ -4,47 +4,138 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Instructor Register Page</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-md-6 d-none d-md-flex bg-primary-gradient align-items-center justify-content-center p-5">
+                        <div class="text-center text-white">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="150" class="mb-4">
+                            <h3 class="fw-bold mb-3">Join Our Instructor Community</h3>
+                            <p class="mb-0">Share your knowledge and grow with students worldwide</p>
+                        </div>
+                    </div>
 
-<h4>Instructor</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                    <div class="col-md-6 p-5">
+                        <div class="text-center mb-4">
+                            <h1 class="h3 fw-bold gradient-text">Instructor Registration</h1>
+                            <p class="text-muted">Create your account to get started</p>
+                        </div>
+
+                        <form asp-action="Create" class="needs-validation" novalidate>
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Name" class="form-control" id="nameInput" placeholder=" " required>
+                                <label for="nameInput" asp-for="Name">Full Name</label>
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Email" type="email" class="form-control" id="emailInput" placeholder=" " required>
+                                <label for="emailInput" asp-for="Email">Email address</label>
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Password" type="password" class="form-control" id="passwordInput" placeholder=" " required>
+                                <label for="passwordInput" asp-for="Password">Password</label>
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="FieldOfWork" class="form-control" id="fieldInput" placeholder=" " required>
+                                <label for="fieldInput" asp-for="FieldOfWork">Field of Work</label>
+                                <span asp-validation-for="FieldOfWork" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-4">
+                                <input asp-for="YearsOfExperience" type="number" class="form-control" id="experienceInput" placeholder=" " required>
+                                <label for="experienceInput" asp-for="YearsOfExperience">Years of Experience</label>
+                                <span asp-validation-for="YearsOfExperience" class="text-danger small"></span>
+                            </div>
+
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-user-plus me-2"></i> Register
+                                </button>
+                            </div>
+
+                            <div class="text-center">
+                                <a asp-action="Login" class="text-decoration-none small">Already have an account? Login here</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FieldOfWork" class="control-label"></label>
-                <input asp-for="FieldOfWork" class="form-control" />
-                <span asp-validation-for="FieldOfWork" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="YearsOfExperience" class="control-label"></label>
-                <input asp-for="YearsOfExperience" class="form-control" />
-                <span asp-validation-for="YearsOfExperience" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
+<style>
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .gradient-text {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .form-floating label {
+        color: #6c757d;
+    }
+
+    .form-control {
+        padding: 1rem 0.75rem;
+        border-radius: 0.5rem;
+    }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+
+    .btn-outline-primary {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+</style>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        (function () {
+            'use strict'
+
+            var forms = document.querySelectorAll('.needs-validation')
+
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
 }

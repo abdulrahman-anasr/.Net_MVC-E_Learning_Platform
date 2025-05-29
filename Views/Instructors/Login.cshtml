@@ -1,49 +1,148 @@
 ﻿@model MvcE_Learning.Models.InstructorLoginSuccess
 
 @{
+    ViewData["Title"] = "Instructor Login";
     var success = true;
-    if(Model != null)
+    if (Model != null)
     {
         success = Model.success;
     }
-    ViewData["Title"] = "Login";
     var id = Context.Request.Cookies["Name"];
 }
 
-<h1>Instructor Login Page</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+                <div class="row g-0">
+                    <!-- Left Side - Illustration -->
+                    <div class="col-md-6 d-none d-md-flex bg-primary-gradient align-items-center justify-content-center p-5">
+                        <div class="text-center text-white">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="150" class="mb-4">
+                            <h3 class="fw-bold mb-3">Welcome Back, Instructor!</h3>
+                            <p class="mb-0">Access your teaching dashboard and manage your courses</p>
+                        </div>
+                    </div>
 
-<h4>Instructor</h4>
-<hr />
-<a class="nav-link text-dark" asp-area="" asp-controller="Instructors" asp-action="Create">Don't have an account? Sign up now!</a>
-<div class="row">
-    <div class="col-md-4">
-        @if(success == false)
-        {
-            <div class="alert alert-danger" role="alert">
-                Invalid Email or Password
+                    <!-- Right Side - Login Form -->
+                    <div class="col-md-6 p-5">
+                        <div class="text-center mb-4">
+                            <h1 class="h3 fw-bold gradient-text">Instructor Login</h1>
+                            <p class="text-muted">Sign in to manage your courses and content</p>
+                        </div>
+
+                        @if (success == false)
+                        {
+                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                Invalid Email or Password. Please try again.
+                            </div>
+                        }
+
+                        <a class="btn btn-outline-primary w-100 mb-4" asp-area="" asp-controller="Instructors" asp-action="Create">
+                            <i class="fas fa-chalkboard-teacher me-2"></i> Don't have an account? Sign up now!
+                        </a>
+
+                        <form asp-action="Login" class="needs-validation" novalidate>
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                            <div class="form-floating mb-3">
+                                <input type="email" asp-for="instructor.Email" class="form-control" id="emailInput" placeholder=" " required>
+                                <label for="emailInput" asp-for="instructor.Email">Email address</label>
+                                <span asp-validation-for="instructor.Email" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating mb-4">
+                                <input type="password" asp-for="instructor.Password" class="form-control" id="passwordInput" placeholder=" " required>
+                                <label for="passwordInput" asp-for="instructor.Password">Password</label>
+                                <span asp-validation-for="instructor.Password" class="text-danger small"></span>
+                            </div>
+
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-sign-in-alt me-2"></i> Login
+                                </button>
+                            </div>
+
+                            <div class="text-center">
+                                <a href="#" class="text-decoration-none small">Forgot password?</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-        }
-        <form asp-action="Login">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="instructor.Email" class="control-label"></label>
-                <input asp-for="instructor.Email" class="form-control" />
-                <span asp-validation-for="instructor.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="instructor.Password" class="control-label"></label>
-                <input asp-for="instructor.Password" class="form-control" />
-                <span asp-validation-for="instructor.Password" class="text-danger"></span>
-            <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
+<style>
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .gradient-text {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .form-floating label {
+        color: #6c757d;
+    }
+
+    .form-control {
+        padding: 1rem 0.75rem;
+        border-radius: 0.5rem;
+    }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+
+    .btn-outline-primary {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+    .alert {
+        border-radius: 0.5rem;
+    }
+</style>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        // Form validation
+        (function () {
+            'use strict'
+
+            var forms = document.querySelectorAll('.needs-validation')
+
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
 }

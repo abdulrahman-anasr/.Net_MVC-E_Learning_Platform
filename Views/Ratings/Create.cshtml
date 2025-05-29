@@ -1,34 +1,112 @@
 ﻿@model MvcE_Learning.Models.Rating
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Rate Course";
 }
 
-<h1>Create</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+                <div class="card-header bg-primary-gradient text-white py-3">
+                    <div class="text-center">
+                        <h2 class="fw-bold mb-0"><i class="fas fa-star me-2"></i> Rate This Course</h2>
+                    </div>
+                </div>
+                <div class="card-body p-5">
+                    <form asp-action="Create" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
+                        <input type="hidden" asp-for="CourseId" />
 
-<h4>Rating</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CourseId" />
-            <div class="form-group">
-                <label asp-for="rating" class="control-label"></label>
-                <input asp-for="rating" class="form-control" />
-                <span asp-validation-for="rating" class="text-danger"></span>
+                        <div class="form-floating mb-4">
+                            <input asp-for="rating" class="form-control" id="ratingInput"
+                                   placeholder=" " required min="1" max="5" step="0.5">
+                            <label for="ratingInput" asp-for="rating">Rating (1-5)</label>
+                            <div class="form-text">Please enter a value between 1 and 5</div>
+                            <span asp-validation-for="rating" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-outline-secondary me-md-2">
+                                <i class="fas fa-arrow-left me-1"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-star me-1"></i> Submit Rating
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Rate" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .card {
+        border-radius: 1rem;
+    }
+
+    .form-floating label {
+        color: #6c757d;
+    }
+
+    .form-control {
+        padding: 1rem 0.75rem;
+        border-radius: 0.5rem;
+    }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark-color);
+            border-color: var(--primary-dark-color);
+        }
+</style>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Form validation
+        (function () {
+            'use strict'
+
+            var forms = document.querySelectorAll('.needs-validation')
+
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+        // Enhance rating input
+        document.addEventListener('DOMContentLoaded', function () {
+            const ratingInput = document.getElementById('ratingInput');
+            ratingInput.addEventListener('input', function () {
+                const value = parseFloat(this.value);
+                if (value < 1) this.value = 1;
+                if (value > 5) this.value = 5;
+            });
+        });
+    </script>
 }
